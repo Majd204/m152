@@ -1,11 +1,15 @@
 <template>
   <div class="content">
+    <div>
    <ul>
-  <li v-for="noten in noten">{{noten.name, noten.grades}} </li>
-  
-  </ul>
-  </div>
+   <li v-for="note in noten">Fach: {{note.name}} <br> Noten: {{note.grades}} <br> 
+   Durchschnitt: {{subjectAverage(note.grades)}}<br> Gesamtdurchschnitt: {{overallAverage()}}</li>
+    </ul>
+</div>
+</div>
 </template>
+
+
 
 <script>
 
@@ -33,10 +37,26 @@ export default {
         name: "Deutsch",
         grades: [4.25,4.1,3.5] 
     },
-]
-
-    }
-  }
+],
+ newschoolGrade: '',
+         }
+     },
+     methods: {
+         subjectAverage: function (grades) {
+             var sum = 0;
+             for (var grade of grades) {
+                 sum += grade;
+             }
+             return Math.round((sum / grades.length) * 2) / 2;
+         },
+    overallAverage: function () {
+      var total = 0;
+      this.noten.forEach((note) => {
+        total += parseFloat(this.subjectAverage(note.grades));
+      });
+      return (total / this.noten.length).toFixed(2);
+         },
+     }
 }
 </script>
 
